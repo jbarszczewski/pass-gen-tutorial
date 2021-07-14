@@ -14,11 +14,11 @@
 
 	import { invoke } from '@tauri-apps/api/tauri';
 
-	let input: string = '';
+	let input: string = '8';
 	let result: string = '';
 	const handleClick = async () => {
-		result = await invoke('my_custom_command', {
-			invokeMessage: input,
+		result = await invoke('generate_password', {
+			length: +input,
 		});
 	};
 </script>
@@ -27,13 +27,21 @@
 	<Container>
 		<Card class="mb-3">
 			<CardHeader>
-				<CardTitle>Tauri + Svelte</CardTitle>
+				<CardTitle>Password Generator</CardTitle>
 			</CardHeader>
 			<CardBody>
-				<CardSubtitle>Example of async call to Tauri</CardSubtitle>
-				<CardText>Write something below and press the button.</CardText>
-				<Input type="text" bind:value={input} />
-				<Button color="primary" on:click={handleClick}>Call Rust</Button>
+				<CardSubtitle>Generate random password</CardSubtitle>
+				<CardText>Press 'Generate' button to create password with length: {input}.</CardText
+				>
+				<Input
+					type="range"
+					id="exampleRange"
+					bind:value={input}
+					min={1}
+					max={32}
+					step={1}
+				/>
+				<Button color="primary" on:click={handleClick}>Generate</Button>
 			</CardBody>
 			<CardFooter>
 				{#if result.length !== 0}
